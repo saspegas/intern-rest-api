@@ -1,0 +1,10 @@
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:31:31 +0300] "GET / HTTP/1.1" 404 951 http-bio-8080-exec-1 92
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:31:32 +0300] "GET /favicon.ico HTTP/1.1" 404 973 http-bio-8080-exec-3 4
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:32:03 +0300] "GET /webservice HTTP/1.1" 404 - http-bio-8080-exec-4 56
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:32:16 +0300] "GET /webservice/json/students HTTP/1.1" 500 3902 http-bio-8080-exec-6 21
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:37:15 +0300] "GET /webservice/json/students HTTP/1.1" 200 12 http-bio-8080-exec-1 382
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:38:38 +0300] "GET /webservice/json/students HTTP/1.1" 200 12 http-bio-8080-exec-4 14
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:42:05 +0300] "GET /webservice/json/students HTTP/1.1" 500 6806 http-bio-8080-exec-7 33
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:46:36 +0300] "GET /webservice/json/students HTTP/1.1" 200 132 http-bio-8080-exec-9 38
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:48:48 +0300] "GET /webservice/json/students HTTP/1.1" 200 132 http-bio-8080-exec-2 12
+0:0:0:0:0:0:0:1 - - [26/May/2019:00:50:49 +0300] "GET /webservice/json/students HTTP/1.1" 200 132 http-bio-8080-exec-5 12
