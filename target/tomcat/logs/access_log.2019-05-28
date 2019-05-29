@@ -118,6 +118,7 @@
 0:0:0:0:0:0:0:1 - - [28/May/2019:18:19:51 +0300] "GET /webservice/json/universities/0 HTTP/1.1" 200 12 http-bio-8080-exec-5 11
 0:0:0:0:0:0:0:1 - - [28/May/2019:18:21:39 +0300] "GET /webservice/json/universities/0 HTTP/1.1" 200 12 http-bio-8080-exec-8 14
 0:0:0:0:0:0:0:1 - - [28/May/2019:18:21:41 +0300] "GET /webservice/json/universities/0 HTTP/1.1" 200 12 http-bio-8080-exec-10 11
+<<<<<<< HEAD
 0:0:0:0:0:0:0:1 - - [28/May/2019:19:21:46 +0300] "GET /webservice/json/students HTTP/1.1" 200 252 http-bio-8080-exec-2 400
 0:0:0:0:0:0:0:1 - - [28/May/2019:19:21:49 +0300] "GET /webservice/json/students/1 HTTP/1.1" 200 132 http-bio-8080-exec-3 20
 0:0:0:0:0:0:0:1 - - [28/May/2019:19:21:51 +0300] "GET /webservice/json/students HTTP/1.1" 200 252 http-bio-8080-exec-4 12
@@ -162,3 +163,5 @@
 0:0:0:0:0:0:0:1 - - [28/May/2019:22:17:10 +0300] "GET /webservice/json/students/0 HTTP/1.1" 200 132 http-bio-8080-exec-3 16
 0:0:0:0:0:0:0:1 - - [28/May/2019:22:17:15 +0300] "GET /webservice/json/students HTTP/1.1" 200 252 http-bio-8080-exec-5 24
 0:0:0:0:0:0:0:1 - - [28/May/2019:22:17:17 +0300] "GET /webservice/json/universities HTTP/1.1" 200 207 http-bio-8080-exec-6 20
+=======
+>>>>>>> de19656c0991a34212ef752668963711aa99ff50
