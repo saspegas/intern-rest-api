@@ -6,18 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Student;
+import models.Univesity;
 
 public class Util {
 
-	List<Student> studentList;
+	List<Student> studentList = null;
+	List<Univesity> universityList = null;
 	
 	public Util() {
 		studentList = new ArrayList<>();
+		universityList = new ArrayList<>();
 	}
 	
 	public void addUser(ResultSet rs) throws SQLException{
 		Student student;
-		while(rs.next()) {
+		do {
 			student = new Student();
 			student.setId(rs.getInt("id"));
 			student.setUniversity_id(rs.getInt("university_id"));
@@ -26,10 +29,31 @@ public class Util {
 			student.setCreated_at(rs.getDate("created_at"));
 			student.setUpdated_at(rs.getDate("updated_at"));
 			studentList.add(student);
-		}
+		} while (rs.next());
+	}
+	
+	public void addUni(ResultSet rs) throws SQLException{
+		Univesity university;
+		do {
+			university = new Univesity();
+			university.setId(rs.getInt("id"));
+			university.setApi_id(rs.getInt("api_id"));
+			university.setName(rs.getString("name"));
+			university.setCity(rs.getString("city"));
+			university.setWeb_page(rs.getString("web_page"));
+			university.setType(rs.getString("type"));
+			university.setFounded_at(rs.getDate("founded_at"));
+			university.setCreated_at(rs.getDate("created_at"));
+			university.setUpdated_at(rs.getDate("updated_at"));
+			universityList.add(university);
+		} while (rs.next());
 	}
 	
 	public List<Student> getStudentList(){
 		return studentList;
+	}
+	
+	public List<Univesity> getUniversity(){
+		return universityList;
 	}
 }

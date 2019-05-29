@@ -10,7 +10,7 @@ public class Student {
 	private Date started_at;
 	private Date created_at;
 	private Date updated_at;
-	
+
 	public int getId() {
 		return id;
 	}
