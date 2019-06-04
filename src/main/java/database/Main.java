@@ -50,7 +50,7 @@ public class Main {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/students/{id}")
 	public Response start(@PathParam("id") int studentId) throws Exception {
-		ResultSet myRs,myRs2;
+		ResultSet myRs;
 		dbPr = new DBProcess();
 		myUtil = new Util();
 
@@ -61,9 +61,9 @@ public class Main {
 			return Response.status(Response.Status.NOT_FOUND).entity("Student not found for ID: " + studentId).build();
 		}
 		myUtil.addUser(myRs);
-		myRs2 = universityById(myUtil.getUni_idFromStudent());
-		myRs2.next();
-		myUtil.addUni(myRs2);
+		myRs = universityById(myUtil.getUni_idFromStudent());
+		myRs.next();
+		myUtil.addUni(myRs);
 		return Response.ok(myUtil.getStudentWithUni(), MediaType.APPLICATION_JSON).build();
 	}
 
