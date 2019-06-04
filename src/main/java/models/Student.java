@@ -10,6 +10,7 @@ public class Student {
 	private Date started_at;
 	private Date created_at;
 	private Date updated_at;
+	private Univesity university;
 
 	public int getId() {
 		return id;
@@ -46,6 +47,12 @@ public class Student {
 	}
 	public void setUpdated_at(Date updated_at) {
 		this.updated_at = updated_at;
+	}
+	public Univesity getUniversity() {
+		return university;
+	}
+	public void setUniversity(Univesity university) {
+		this.university = university;
 	}
 	
 }

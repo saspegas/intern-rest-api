@@ -50,7 +50,7 @@ public class Main {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/students/{id}")
 	public Response start(@PathParam("id") int studentId) throws Exception {
-		ResultSet myRs;
+		ResultSet myRs,myRs2;
 		dbPr = new DBProcess();
 		myUtil = new Util();
 
@@ -61,9 +61,12 @@ public class Main {
 			return Response.status(Response.Status.NOT_FOUND).entity("Student not found for ID: " + studentId).build();
 		}
 		myUtil.addUser(myRs);
-		return Response.ok(myUtil.getStudentList(), MediaType.APPLICATION_JSON).build();
+		myRs2 = universityById(myUtil.getUni_idFromStudent());
+		myRs2.next();
+		myUtil.addUni(myRs2);
+		return Response.ok(myUtil.getStudentWithUni(), MediaType.APPLICATION_JSON).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/universities")
@@ -79,7 +82,7 @@ public class Main {
 		myUtil.addUni(myRs);
 		return myUtil.getUniversity();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/universities/{id}")
@@ -92,52 +95,53 @@ public class Main {
 		resWanted = dbPr.createStatement();
 		myRs = universityById(universityId);
 		if (!myRs.next()) {
-			return Response.status(Response.Status.NOT_FOUND).entity("University not found for ID: " + universityId).build();
+			return Response.status(Response.Status.NOT_FOUND).entity("University not found for ID: " + universityId)
+					.build();
 		}
 		myUtil.addUni(myRs);
 		return Response.ok(myUtil.getUniversity(), MediaType.APPLICATION_JSON).build();
 	}
-	
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Path("/students/")
-    public Response createUserProfile(Student student) throws Exception {
-        
-        String name = student.getName();
-        int university_id = student.getUniversity_id();
-        Date started_at = student.getStarted_at();
-        ResultSet myRs;
-        dbPr = new DBProcess();
-        dbPr.openConnection();
-        
-        if(name == null || name == "") {
-        	return Response.status(Response.Status.PRECONDITION_FAILED).entity("Name cannot be empty.").build();
-        }
-        
-        Date currentDate = new Date(System.currentTimeMillis());
-        if (started_at == null || started_at.equals("") || !currentDate.after(started_at)) {
-        	return Response.status(Response.Status.PRECONDITION_FAILED).entity("Wrong date field.").build();
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/students/")
+	public Response createUserProfile(Student student) throws Exception {
+
+		String name = student.getName();
+		int university_id = student.getUniversity_id();
+		Date started_at = student.getStarted_at();
+		ResultSet myRs;
+		dbPr = new DBProcess();
+		dbPr.openConnection();
+
+		if (name == null || name == "") {
+			return Response.status(Response.Status.PRECONDITION_FAILED).entity("Name cannot be empty.").build();
 		}
-        
-        myRs = universityByApiId(university_id);
-        if (myRs.next()) {
+
+		Date currentDate = new Date(System.currentTimeMillis());
+		if (started_at == null || started_at.equals("") || !currentDate.after(started_at)) {
+			return Response.status(Response.Status.PRECONDITION_FAILED).entity("Wrong date field.").build();
+		}
+
+		myRs = universityByApiId(university_id);
+		if (myRs.next()) {
 			System.out.println("üni var");
 		} else {
 			System.out.println("üni yok");
 		}
-        
-        return Response.ok("Kayýt Baþarýlý", MediaType.APPLICATION_JSON).build();
-    }
 
-    public ResultSet universityByApiId(int universityId) throws SQLException {
+		return Response.ok("Kayýt Baþarýlý", MediaType.APPLICATION_JSON).build();
+	}
+
+	public ResultSet universityByApiId(int universityId) throws SQLException {
 		String query;
 		query = "select * from universities where api_id = " + universityId;
 		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
 		ResultSet rs = pst.executeQuery();
 		return rs;
 	}
-    
+
 	public ResultSet universityById(int universityId) throws SQLException {
 		String query;
 		query = "select * from universities where id = " + universityId;

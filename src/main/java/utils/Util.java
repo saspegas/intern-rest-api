@@ -49,6 +49,15 @@ public class Util {
 		} while (rs.next());
 	}
 	
+	public List<Student> getStudentWithUni() {
+		studentList.get(0).setUniversity(universityList.get(0));
+		return studentList;
+	}
+	
+	public int getUni_idFromStudent(){
+		return studentList.get(0).getUniversity_id();
+	}
+	
 	public List<Student> getStudentList(){
 		return studentList;
 	}
