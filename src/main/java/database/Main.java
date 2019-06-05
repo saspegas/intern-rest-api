@@ -29,6 +29,7 @@ public class Main {
 	public CachedRowSet resWanted;
 	Util myUtil;
 	String result;
+	UniversityJson getUniversity = new UniversityJson();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -128,7 +129,7 @@ public class Main {
 		if (myRs.next()) {
 			System.out.println("üni var");
 		} else {
-			System.out.println("üni yok");
+			System.out.println(getUniversity.getJsonUniversity(university_id).getString("name"));
 		}
 
 		return Response.ok("Kayýt Baþarýlý", MediaType.APPLICATION_JSON).build();
