@@ -5,11 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.sql.rowset.CachedRowSet;
@@ -24,8 +21,6 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
-import com.mysql.cj.api.mysqla.result.Resultset;
-
 import models.Student;
 import models.Univesity;
 import utils.Util;
@@ -39,7 +34,6 @@ public class Main {
 	Util myUtil;
 	String result;
 	UniversityJson getUniversity = new UniversityJson();
-	private java.util.Date date;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -137,6 +131,7 @@ public class Main {
 		}
 
 		myRs = universityByApiId(university_id);
+		
 		if (myRs.next()) { //üniversite daha önceden kaydedilmiþ
 			insertResult = addStudent(name, university_id, started_at);
 			if (insertResult != -1) {
@@ -146,14 +141,39 @@ public class Main {
 			}
 		} else { //üniversite veritabanýnda bulunamadý
 			insertResult = addUniversity(getUniversity.getJsonUniversity(university_id));
+			if (insertResult != -1) {
+				insertResult = addStudent(name, university_id, started_at);
+				if (insertResult != -1) {
+					return Response.ok(name + " isimli öðrenci " +insertResult + " id numarasý ile kaydedildi.", MediaType.APPLICATION_JSON).build();
+				}
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Öðrenci eklenirken hata oluþtu.").build();
+			}
 		}
 
 		return Response.ok("Kayýt Baþarýlý", MediaType.APPLICATION_JSON).build();
 	}
 
-	private int addUniversity(JSONObject jsonUniversity) {
-		// TODO Auto-generated method stub
-		return 0;
+	private int addUniversity(JSONObject jsonUni) throws SQLException {
+		String query;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String created_at = LocalDateTime.now().format(formatter);
+		String founded_at = jsonUni.getString("founded_at") + "-01-01";
+		query = "insert into universities (id, api_id, name, city, web_page, type, founded_at, created_at, updated_at) values ("
+				+ jsonUni.getInt("id")
+				+ "," + jsonUni.getInt("id")
+				+ ",'" + jsonUni.getString("name") + "'"
+				+ ",'" + jsonUni.getString("city") + "'"
+				+ ",'" + jsonUni.getString("web_page") + "'"
+				+ ",'" + jsonUni.getString("type") + "'"
+				+ ",'" + founded_at + "'"
+				+ ",'" + created_at + "'"
+				+ ",'" + created_at + "')";
+		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
+		int rs = pst.executeUpdate();
+		if (rs == 1)
+			return jsonUni.getInt("id");
+		return -1;
 	}
 
 	private int addStudent(String name, int university_id, Date started_at) throws SQLException {
