@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import models.Student;
-import models.Univesity;
 import utils.Util;
 
 @Path("/json")
@@ -38,17 +37,20 @@ public class Main {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/students")
-	public List<Student> start() throws Exception {
+	public Response students() throws Exception {
 		ResultSet myRs;
 		dbPr = new DBProcess();
 		myUtil = new Util();
 
 		statement = dbPr.openConnection();
 		resWanted = dbPr.createStatement();
-		myRs = queryWork();
-		myRs.next();
-		myUtil.addUser(myRs);
-		return myUtil.getStudentList();
+		myRs = getStudents();
+		if (myRs.next()) {
+			myUtil.addUser(myRs);
+		} else {
+			return Response.status(Response.Status.NOT_FOUND).entity("Kayýtlý öðrenci bulanmamaktadýr.").build();
+		}
+		return Response.ok(myUtil.getStudentList(), MediaType.APPLICATION_JSON).build();
 	}
 
 	@GET
@@ -61,7 +63,7 @@ public class Main {
 
 		statement = dbPr.openConnection();
 		resWanted = dbPr.createStatement();
-		myRs = queryWorkById(studentId);
+		myRs = getStudentsById(studentId);
 		if (!myRs.next()) {
 			return Response.status(Response.Status.NOT_FOUND).entity("Student not found for ID: " + studentId).build();
 		}
@@ -75,7 +77,7 @@ public class Main {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/universities")
-	public List<Univesity> universities() throws Exception {
+	public Response universities() throws Exception {
 		ResultSet myRs;
 		dbPr = new DBProcess();
 		myUtil = new Util();
@@ -83,9 +85,12 @@ public class Main {
 		statement = dbPr.openConnection();
 		resWanted = dbPr.createStatement();
 		myRs = getUniversities();
-		myRs.next();
-		myUtil.addUni(myRs);
-		return myUtil.getUniversity();
+		if (myRs.next()) {
+			myUtil.addUni(myRs);
+		} else {
+			return Response.status(Response.Status.NOT_FOUND).entity("Kayýtlý üniversite bulanmamaktadýr.").build();
+		}
+		return Response.ok(myUtil.getUniversity(), MediaType.APPLICATION_JSON).build();
 	}
 
 	@GET
@@ -222,7 +227,7 @@ public class Main {
 		return rs;
 	}
 
-	public ResultSet queryWorkById(int studentId) throws SQLException {
+	public ResultSet getStudentsById(int studentId) throws SQLException {
 		String query;
 		query = "select * from students where id = " + studentId;
 		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
@@ -230,7 +235,7 @@ public class Main {
 		return rs;
 	}
 
-	public ResultSet queryWork() throws SQLException {
+	public ResultSet getStudents() throws SQLException {
 		String query;
 		query = "select * from students";
 		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
