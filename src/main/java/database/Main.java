@@ -202,7 +202,7 @@ public class Main {
 		return rs;
 	}
 
-	public ResultSet universityByApiId(int universityId) throws SQLException {
+	private ResultSet universityByApiId(int universityId) throws SQLException {
 		String query;
 		query = "select * from universities where api_id = " + universityId;
 		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
@@ -210,7 +210,7 @@ public class Main {
 		return rs;
 	}
 
-	public ResultSet universityById(int universityId) throws SQLException {
+	private ResultSet universityById(int universityId) throws SQLException {
 		String query;
 		query = "select * from universities where id = " + universityId;
 		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
@@ -218,7 +218,7 @@ public class Main {
 		return rs;
 	}
 
-	public ResultSet getUniversities() throws SQLException {
+	private ResultSet getUniversities() throws SQLException {
 		String query;
 		query = "select * from universities";
 		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
@@ -226,7 +226,7 @@ public class Main {
 		return rs;
 	}
 
-	public ResultSet getStudentsById(int studentId) throws SQLException {
+	private ResultSet getStudentsById(int studentId) throws SQLException {
 		String query;
 		query = "select * from students where id = " + studentId;
 		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
@@ -234,7 +234,7 @@ public class Main {
 		return rs;
 	}
 
-	public ResultSet getStudents() throws SQLException {
+	private ResultSet getStudents() throws SQLException {
 		String query;
 		query = "select * from students";
 		PreparedStatement pst = dbPr.getConnection().prepareStatement(query);
