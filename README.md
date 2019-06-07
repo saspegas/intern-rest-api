@@ -12,8 +12,8 @@ Conditions:
 http://localhost:8080/webservice/json/students
 > Response: Returns all students from database.
 
-    [
-	    {
+	[
+		{
 		    "id":23,
 		    "university_id":10,
 		    "name":"Kadir Bay",
@@ -22,15 +22,15 @@ http://localhost:8080/webservice/json/students
 		    "updated_at":"2019-06-07",
 		    "university":null
 		},
-	    {
-		    "id":24,
-		    "university_id":10,
-		    "name":"Ahmet Yılmaz",
-		    "started_at":"2017-05-30",
-		    "created_at":"2019-06-07",
-		    "updated_at":"2019-06-07",
-		    "university":null
-	    }
+			{
+		    	"id":24,
+		    	"university_id":10,
+		    	"name":"Ahmet Yılmaz",
+		    	"started_at":"2017-05-30",
+		    	"created_at":"2019-06-07",
+		    	"updated_at":"2019-06-07",
+		    	"university":null
+			}
 	]
 
 http://localhost:8080/webservice/json/students/13 
