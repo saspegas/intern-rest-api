@@ -5,6 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.sql.rowset.CachedRowSet;
@@ -16,6 +21,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.json.JSONObject;
+
+import com.mysql.cj.api.mysqla.result.Resultset;
 
 import models.Student;
 import models.Univesity;
@@ -30,6 +39,7 @@ public class Main {
 	Util myUtil;
 	String result;
 	UniversityJson getUniversity = new UniversityJson();
+	private java.util.Date date;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -111,6 +121,7 @@ public class Main {
 
 		String name = student.getName();
 		int university_id = student.getUniversity_id();
+		int insertResult;
 		Date started_at = student.getStarted_at();
 		ResultSet myRs;
 		dbPr = new DBProcess();
@@ -126,13 +137,45 @@ public class Main {
 		}
 
 		myRs = universityByApiId(university_id);
-		if (myRs.next()) {
-			System.out.println("üni var");
-		} else {
-			System.out.println(getUniversity.getJsonUniversity(university_id).getString("name"));
+		if (myRs.next()) { //üniversite daha önceden kaydedilmiþ
+			insertResult = addStudent(name, university_id, started_at);
+			if (insertResult != -1) {
+				return Response.ok(name + " isimli öðrenci " +insertResult + " id numarasý ile kaydedildi.", MediaType.APPLICATION_JSON).build();
+			} else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Öðrenci eklenirken hata oluþtu.").build();
+			}
+		} else { //üniversite veritabanýnda bulunamadý
+			insertResult = addUniversity(getUniversity.getJsonUniversity(university_id));
 		}
 
 		return Response.ok("Kayýt Baþarýlý", MediaType.APPLICATION_JSON).build();
+	}
+
+	private int addUniversity(JSONObject jsonUniversity) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	private int addStudent(String name, int university_id, Date started_at) throws SQLException {
+		String query;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String created_at = LocalDateTime.now().format(formatter);
+		query = "insert into students (university_id, name, started_at, created_at, updated_at) values ("
+		+ university_id + "," 
+		+ "'" + name + "',"
+		+ "'" + started_at + "',"
+		+ "'" + created_at + "',"
+		+ "'" + created_at + "')";
+		PreparedStatement pst = dbPr.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+		int rs = pst.executeUpdate();
+		if(rs == 1) {
+			ResultSet rSet = pst.getGeneratedKeys();
+			rSet.next();
+			rs = rSet.getInt(1);
+		} else {
+			return -1;
+		}
+		return rs;
 	}
 
 	public ResultSet universityByApiId(int universityId) throws SQLException {
