@@ -6,6 +6,8 @@ Conditions and Information:
  - Date formats should be year-month-day. (Example: 2019-05-20)
  - If the submitted university is not in the database, it is created first. The student is then created to include university knowledge.
  - We're getting university information from another json data.
+ 
+ Run Configurations -> Maven Build -> write in Goals "tomcat7:run"
 
 **GET METHODS LINKS**
 
