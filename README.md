@@ -1,6 +1,6 @@
 # intern-rest-api - java
 
-Conditions:
+Conditions and Information:
  - A person's university start date cannot be greater than today.
  - The name of the person and the start date of the university cannot be empty.
  - Date formats should be year-month-day. (Example: 2019-05-20)
@@ -22,38 +22,38 @@ http://localhost:8080/webservice/json/students
 		    "updated_at":"2019-06-07",
 		    "university":null
 		},
-			{
-		    	"id":24,
-		    	"university_id":10,
-		    	"name":"Ahmet Yılmaz",
-		    	"started_at":"2017-05-30",
-		    	"created_at":"2019-06-07",
-		    	"updated_at":"2019-06-07",
-		    	"university":null
-			}
+		{
+		   "id":24,
+		    "university_id":10,
+		    "name":"Ahmet Yılmaz",
+		    "started_at":"2017-05-30",
+		    "created_at":"2019-06-07",
+		    "updated_at":"2019-06-07",
+		    "university":null
+		}
 	]
 
 http://localhost:8080/webservice/json/students/13 
 >Response: Returns the student with id 13 from database.
 
-    [
-	    {
-		    "id":23,"university_id":10,
-		    "name":"İsim Soyisim",
-		    "started_at":"2016-05-30",
-		    "created_at":"2019-06-07",
-		    "updated_at":"2019-06-07",
-		    "university":
-			    {
-				    "id":10,
-				    "api_id":10,
-				    "name":"Alanya Alaaddin Keykubat Üniversitesi",
-					"city":"Antalya",
-					"web_page":"alanyaaku.edu.tr",
-					"type":"Devlet",
-					"founded_at":"2015-01-01",
-					"created_at":"2019-06-07",
-					"updated_at":"2019-06-07"
+	[
+		{
+			"id":23,"university_id":10,
+			"name":"İsim Soyisim",
+			"started_at":"2016-05-30",
+			"created_at":"2019-06-07",
+			"updated_at":"2019-06-07",
+			"university":
+				{
+				"id":10,
+				"api_id":10,
+				"name":"Alanya Alaaddin Keykubat Üniversitesi",
+				"city":"Antalya",
+				"web_page":"alanyaaku.edu.tr",
+				"type":"Devlet",
+				"founded_at":"2015-01-01",
+				"created_at":"2019-06-07",
+				"updated_at":"2019-06-07"
 				}
 		}
 	]
